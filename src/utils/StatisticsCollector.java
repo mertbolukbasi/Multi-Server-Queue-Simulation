@@ -86,6 +86,20 @@ public class StatisticsCollector {
         return (double) customersWhoWaited / totalCustomersProcessed;
     }
 
+    public double getIdleServerProbability() {
+        if (numberOfServers == 0 || totalSimulationMinutes == 0) {
+            return 0.0;
+        }
+        return (double) totalIdleServerMinutes / (numberOfServers * totalSimulationMinutes);
+    }
+
+    public double getAverageWaitingTimeOfThoseWhoWait() {
+        if (customersWhoWaited == 0) {
+            return 0.0;
+        }
+        return (double) totalWaitingTime / customersWhoWaited;
+    }
+
     public double getServerUtilization() {
         if (numberOfServers == 0 || totalSimulationMinutes == 0) {
             return 0.0;
