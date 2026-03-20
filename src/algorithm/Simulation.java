@@ -1,6 +1,8 @@
 package algorithm;
 
+import model.Customer;
 import model.Event;
+import model.EventType;
 import model.Server;
 import utils.DistributionTable;
 
@@ -37,8 +39,25 @@ public class Simulation {
         Not: Sıralama yapmanıza gerek yok. Event sınıfındaki Comparable interface'i bunu kendi yapıyor. PriorityQueue içine eklemeniz yeterli.
         Not: Service time hesaplamıyoruz burada. Interarrival time ve arrival time hesaplayıp customer nesnesi oluşturuyoruz.
      */
-    private void initializeFutureEventList() {
+    private void initializeFutureEventList() 
+    {
         int clock = 0;
+
+        DistributionTable obj = new DistributionTable();
+
+        for(int i = 0 ; i < getTotalCustomers(); i++)
+        {
+            
+            int intArrival = obj.getInterarrivalTime();
+            clock += intArrival;
+
+            Customer customer = new Customer(i, intArrival);
+            Event obj2 = new Event(clock, EventType.ARRIVAL, customer, getAvailableServer());
+
+            futureEventList.add(obj2);
+
+        }
+        
     }
 
     /*
@@ -47,8 +66,10 @@ public class Simulation {
         Her customer geldiğinde calculateCustomerServiceTime() ile service time hesaplanacak.
         Her döngüde projedeki 3. maddedeki a b c maddeleri kontrol edilip ona göre işlem yapılacak. (Bunlar için ayrı fonksiyon tanımlayabilirsiniz.)
      */
-    public void runSimulation() {
+    public void runSimulation() 
+    {
 
+        
     }
 
     // Sunucular müsait mi mu değil mi diye kontrol edecek. Bir tane bile boş varsa true olacak.
