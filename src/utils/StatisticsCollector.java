@@ -7,6 +7,7 @@ public class StatisticsCollector {
     private int totalWaitingTime = 0;
     private int totalServiceTime = 0;
     private int totalInterarrivalTime = 0;
+    private int totalInterarrivalCount = 0;
     private int totalTimeInSystem = 0;
     private int totalIdleServerMinutes = 0;
 
@@ -15,6 +16,88 @@ public class StatisticsCollector {
 
     public StatisticsCollector(int numberOfServers) {
         this.numberOfServers = numberOfServers;
+    }
+
+    public void incrementTotalCustomersProcessed() {
+        totalCustomersProcessed++;
+    }
+
+    public void incrementCustomersWhoWaited() {
+        customersWhoWaited++;
+    }
+
+    public void addWaitingTime(int waitingTime) {
+        totalWaitingTime += waitingTime;
+    }
+
+    public void addServiceTime(int serviceTime) {
+        totalServiceTime += serviceTime;
+    }
+
+    public void addInterarrivalTime(int interarrivalTime) {
+        totalInterarrivalTime += interarrivalTime;
+        totalInterarrivalCount++;
+    }
+
+    public void addTimeInSystem(int timeInSystem) {
+        totalTimeInSystem += timeInSystem;
+    }
+
+    public void addIdleServerMinutes(int idleServerMinutes) {
+        totalIdleServerMinutes += idleServerMinutes;
+    }
+
+    public void incrementSimulationMinute() {
+        totalSimulationMinutes++;
+    }
+
+    public double getAverageWaitingTime() {
+        if (totalCustomersProcessed == 0) {
+            return 0.0;
+        }
+        return (double) totalWaitingTime / totalCustomersProcessed;
+    }
+
+    public double getAverageServiceTime() {
+        if (totalCustomersProcessed == 0) {
+            return 0.0;
+        }
+        return (double) totalServiceTime / totalCustomersProcessed;
+    }
+
+    public double getAverageInterarrivalTime() {
+        if (totalInterarrivalCount == 0) {
+            return 0.0;
+        }
+        return (double) totalInterarrivalTime / totalInterarrivalCount;
+    }
+
+    public double getAverageTimeInSystem() {
+        if (totalCustomersProcessed == 0) {
+            return 0.0;
+        }
+        return (double) totalTimeInSystem / totalCustomersProcessed;
+    }
+
+    public double getWaitingProbability() {
+        if (totalCustomersProcessed == 0) {
+            return 0.0;
+        }
+        return (double) customersWhoWaited / totalCustomersProcessed;
+    }
+
+    public double getServerUtilization() {
+        if (numberOfServers == 0 || totalSimulationMinutes == 0) {
+            return 0.0;
+        }
+        return (double) totalServiceTime / (numberOfServers * totalSimulationMinutes);
+    }
+
+    public double getAverageIdleTimePerServer() {
+        if (numberOfServers == 0) {
+            return 0.0;
+        }
+        return (double) totalIdleServerMinutes / numberOfServers;
     }
 
     public int getTotalCustomersProcessed() {
