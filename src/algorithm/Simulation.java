@@ -110,7 +110,6 @@ public class Simulation {
                     logger.logEvent(clock, "Customer " + customer.getCustomer_id() + " arrived but all servers busy, added to queue" + " (queue size: " + waitingQueue.size() + ")");
                 }
 
-
             }
             // server become free
             else if (event.getEvenType() == EventType.LEAVE) {
@@ -158,9 +157,9 @@ public class Simulation {
 
         if (processed > 0) {
 
-            System.out.println("Average waiting time: " + (double) stats.getTotalWaitingTime() / processed);
-            System.out.println("Average service time: " + (double) stats.getTotalServiceTime() / processed);
-            System.out.println("Average time in system: " + (double) stats.getTotalTimeInSystem() / processed);
+            System.out.println("Average waiting time: " + (double)stats.getTotalWaitingTime() / processed);
+            System.out.println("Average service time: " + (double)stats.getTotalServiceTime() / processed);
+            System.out.println("Average time in system: " + (double)stats.getTotalTimeInSystem() / processed);
         }
         System.out.println("---------------------------------");
     }
