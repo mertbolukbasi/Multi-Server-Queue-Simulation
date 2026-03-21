@@ -55,7 +55,7 @@ public class Simulation {
             int intArrival = obj.getInterarrivalTime();
             clock += intArrival;
 
-            Customer customer = new Customer(i, intArrival);
+            Customer customer = new Customer(i, clock);
             Event obj2 = new Event(clock, EventType.ARRIVAL, customer, getAvailableServer());
 
             futureEventList.add(obj2);
@@ -110,7 +110,6 @@ public class Simulation {
                     logger.logEvent(clock, "Customer " + customer.getCustomer_id() + " arrived but all servers busy, added to queue" + " (queue size: " + waitingQueue.size() + ")");
                 }
 
-
             }
             // server become free
             else if (event.getEvenType() == EventType.LEAVE) {
@@ -120,7 +119,7 @@ public class Simulation {
                 int timeInSystem = customer.getServiceEndTime() - customer.getServiceStartTime() + waitingTime;
                 stats.setTotalCustomersProcessed(stats.getTotalCustomersProcessed() + 1);
                 stats.setTotalWaitingTime(stats.getTotalWaitingTime() + waitingTime);
-                stats.setTotalTimeInSystem(stats.getTotalTimeInSystem() + timeInSystem);
+                stats.setTotalTimeInSystem(stats.getTotalTimeInSystem() + timeInSystem); //
                 logger.logEvent(clock, "Customer " + customer.getCustomer_id() + " left Server " + server.getServer_id() + " (waited: " + waitingTime + ", total in system: " + timeInSystem + ")");
                 server.releaseServer();
 
@@ -154,13 +153,13 @@ public class Simulation {
         System.out.println("Total waiting time: " + stats.getTotalWaitingTime());
         System.out.println("Total service time: " + stats.getTotalServiceTime());
         System.out.println("Total time in system: " + stats.getTotalTimeInSystem());
-        System.out.println("Total simulation minutes: " + stats.getTotalSimulationMinutes());
+        System.out.println("Total simulation time: " + stats.getTotalSimulationMinutes());
 
         if (processed > 0) {
 
-            System.out.println("Average waiting time: " + (double) stats.getTotalWaitingTime() / processed);
-            System.out.println("Average service time: " + (double) stats.getTotalServiceTime() / processed);
-            System.out.println("Average time in system: " + (double) stats.getTotalTimeInSystem() / processed);
+            System.out.println("Average waiting time: " + (double)stats.getTotalWaitingTime() / processed);
+            System.out.println("Average service time: " + (double)stats.getTotalServiceTime() / processed);
+            System.out.println("Average time in system: " + (double)stats.getTotalTimeInSystem() / processed);
         }
         System.out.println("---------------------------------");
     }
