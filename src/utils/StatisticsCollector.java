@@ -7,7 +7,6 @@ public class StatisticsCollector {
     private int totalWaitingTime = 0;
     private int totalServiceTime = 0;
     private int totalInterarrivalTime = 0;
-    private int totalInterarrivalCount = 0;
     private int totalTimeInSystem = 0;
     private int totalIdleServerMinutes = 0;
 
@@ -36,7 +35,6 @@ public class StatisticsCollector {
 
     public void addInterarrivalTime(int interarrivalTime) {
         totalInterarrivalTime += interarrivalTime;
-        totalInterarrivalCount++;
     }
 
     public void addTimeInSystem(int timeInSystem) {
@@ -66,10 +64,10 @@ public class StatisticsCollector {
     }
 
     public double getAverageInterarrivalTime() {
-        if (totalInterarrivalCount == 0) {
+        if (totalCustomersProcessed == 0) {
             return 0.0;
         }
-        return (double) totalInterarrivalTime / totalInterarrivalCount;
+        return (double) totalInterarrivalTime / totalCustomersProcessed;
     }
 
     public double getAverageTimeInSystem() {
