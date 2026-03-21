@@ -107,7 +107,7 @@ public class Simulation {
 
                     waitingQueue.add(customer);
                     stats.setCustomersWhoWaited(stats.getCustomersWhoWaited() + 1);
-                    logger.logEvent(clock, "Customer " + customer.getCustomer_id() + " arrived -> all servers busy, added to queue" + " (queue size: " + waitingQueue.size() + ")");
+                    logger.logEvent(clock, "Customer " + customer.getCustomer_id() + " arrived but all servers busy, added to queue" + " (queue size: " + waitingQueue.size() + ")");
                 }
 
 
