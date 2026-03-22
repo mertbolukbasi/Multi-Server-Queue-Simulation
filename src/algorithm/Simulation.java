@@ -43,7 +43,7 @@ public class Simulation {
         Not: Sıralama yapmanıza gerek yok. Event sınıfındaki Comparable interface'i bunu kendi yapıyor. PriorityQueue içine eklemeniz yeterli.
         Not: Service time hesaplamıyoruz burada. Interarrival time ve arrival time hesaplayıp customer nesnesi oluşturuyoruz.
      */
-    private void initializeFutureEventList() 
+    private void initializeFutureEventList()
     {
         int clock = 0;
 
@@ -51,7 +51,7 @@ public class Simulation {
 
         for(int i = 1 ; i <= getTotalCustomers(); i++)
         {
-            
+
             int intArrival = obj.getInterarrivalTime();
             clock += intArrival;
 
@@ -61,7 +61,7 @@ public class Simulation {
             futureEventList.add(obj2);
 
         }
-        
+
     }
 
     /*
@@ -115,8 +115,8 @@ public class Simulation {
             else if (event.getEvenType() == EventType.LEAVE) {
 
                 Server server = event.getServer();
-                int waitingTime = customer.getWaitingTime();
-                int timeInSystem = customer.getServiceEndTime() - customer.getServiceStartTime() + waitingTime;
+                int waitingTime = customer.getServiceStartTime() - customer.getArrivalTime();
+                int timeInSystem = clock - customer.getArrivalTime();
                 stats.setTotalCustomersProcessed(stats.getTotalCustomersProcessed() + 1);
                 stats.setTotalWaitingTime(stats.getTotalWaitingTime() + waitingTime);
                 stats.setTotalTimeInSystem(stats.getTotalTimeInSystem() + timeInSystem); //
@@ -140,13 +140,15 @@ public class Simulation {
         }
 
         stats.setTotalSimulationMinutes(clock);
-        printStatistics(stats);
+        printStatistics(stats, logger);
         logger.close();
     }
 
-    private void printStatistics(StatisticsCollector stats) {
+    private void printStatistics(StatisticsCollector stats, SimulationLogger logger) {
 
         int processed = stats.getTotalCustomersProcessed();
+
+        // Konsola sadece senin istediğin orijinal formatta yazdırıyoruz
         System.out.println("\n--- Simulation Statistics ---");
         System.out.println("Total customers processed: " + processed);
         System.out.println("Customers who waited: " + stats.getCustomersWhoWaited());
@@ -155,11 +157,19 @@ public class Simulation {
         System.out.println("Total time in system: " + stats.getTotalTimeInSystem());
         System.out.println("Total simulation time: " + stats.getTotalSimulationMinutes());
 
-        if (processed > 0) {
+        // Dosyaya yazma işlemini logger içindeki direkt yazma metoduyla yapıyoruz (logEvent değil)
+        // Eğer SimulationLogger sınıfında logEvent dışında bir yazma metodu yoksa,
+        // bu veriler sadece konsolda kalır. Log dosyasına da gitsin dersen logEvent kullanmalıyız.
+        // Ama "Clock/Log" yazmasın dediğin için logEvent'i buradan kaldırdım.
 
-            System.out.println("Average waiting time: " + (double)stats.getTotalWaitingTime() / processed);
-            System.out.println("Average service time: " + (double)stats.getTotalServiceTime() / processed);
-            System.out.println("Average time in system: " + (double)stats.getTotalTimeInSystem() / processed);
+        if (processed > 0) {
+            double avgWait = (double)stats.getTotalWaitingTime() / processed;
+            double avgService = (double)stats.getTotalServiceTime() / processed;
+            double avgSystem = (double)stats.getTotalTimeInSystem() / processed;
+
+            System.out.println("Average waiting time: " + avgWait);
+            System.out.println("Average service time: " + avgService);
+            System.out.println("Average time in system: " + avgSystem);
         }
         System.out.println("---------------------------------");
     }
