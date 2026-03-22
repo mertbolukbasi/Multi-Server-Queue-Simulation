@@ -6,11 +6,11 @@ import java.io.IOException;
 
 public class SimulationLogger {
     private BufferedWriter writer;
-    private final String filePath = "../simulation_logs.log";
+    private final String filePath = "simulation_logs.log";
 
     public SimulationLogger() {
         try {
-            writer = new BufferedWriter(new FileWriter(filePath));
+            writer = new BufferedWriter(new FileWriter(filePath, true));
         } catch (IOException e) {
             System.err.println("Log file error: " + e.getMessage());
         }
@@ -35,6 +35,16 @@ public class SimulationLogger {
             writer.newLine();
         } catch (IOException e) {
             System.err.println("Log writing error: " + e.getMessage());
+        }
+    }
+
+    public void close() {
+        try {
+            if (writer != null) {
+                writer.close();
+            }
+        } catch (IOException e) {
+            System.err.println("File close error: " + e.getMessage());
         }
     }
 }

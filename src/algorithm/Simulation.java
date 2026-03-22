@@ -141,7 +141,7 @@ public class Simulation {
 
         stats.setTotalSimulationMinutes(clock);
         printStatistics(stats);
-
+        logger.close();
     }
 
     private void printStatistics(StatisticsCollector stats) {
